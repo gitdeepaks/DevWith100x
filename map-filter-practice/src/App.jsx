@@ -63,7 +63,7 @@ function App() {
         })}
       <Conditional />
       <OperationalChaining />
-      <NUllishCoalsing />
+      <NullishCoalsing />
     </>
   );
 }
@@ -88,7 +88,7 @@ const OperationalChaining = () => {
   return <p>{user?.address?.city}</p>;
 };
 
-const NUllishCoalsing = () => {
+const NullishCoalsing = () => {
   let userInput = "Jemy";
   let defaultValue = "Hello, user!";
   return <p>{userInput ?? defaultValue}</p>;
