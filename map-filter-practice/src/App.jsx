@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import "./App.css";
 
 const products = [
@@ -64,6 +65,8 @@ function App() {
       <Conditional />
       <OperationalChaining />
       <NullishCoalsing />
+      <ClassComponenet />
+      <PhotoGallary />
     </>
   );
 }
@@ -93,5 +96,63 @@ const NullishCoalsing = () => {
   let defaultValue = "Hello, user!";
   return <p>{userInput ?? defaultValue}</p>;
 };
+
+const PhotoGallary = () => {
+  const [photos, setPhotos] = useState([]);
+
+  React.useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/photos").then(async (res) => {
+      try {
+        const data = await res.json();
+        return setPhotos(data);
+      } catch (err) {
+        return console.log(err);
+      }
+    });
+  }, []);
+  return (
+    <div className="">
+      <h3>
+        Photos{" "}
+        {photos.slice(0, 5).map((photo) => {
+          return <image src={photo.thumbnailUrl} key={photo.id} />;
+        })}
+      </h3>
+    </div>
+  );
+};
+
+class ClassComponenet extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0,
+    };
+  }
+
+  incrementCount = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  componentDidMount() {
+    console.log("Component mounted");
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate", prevState, prevProps);
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+  }
+  render() {
+    return (
+      <div className="">
+        <p>Count:{this.state.count}</p>
+        <button onClick={this.incrementCount}>Increment</button>
+      </div>
+    );
+  }
+}
 
 export default App;
