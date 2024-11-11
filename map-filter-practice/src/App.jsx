@@ -106,7 +106,7 @@ const PhotoGallary = () => {
         const data = await res.json();
         return setPhotos(data);
       } catch (err) {
-        return console.log(err);
+        return console.error(err);
       }
     });
   }, []);
