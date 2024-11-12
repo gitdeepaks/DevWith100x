@@ -1,0 +1,34 @@
+body{
+  background-color: var(--bg-color);
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0 30px;
+}
+
+.page{
+  display: flex;
+  flex-direction: column;
+  height: 92vh;
+}
+
+.navbar{
+  height: 8vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+h1{
+  color: var(--heading-color);
+}
+
+.navbar div {
+  display:flex;
+  gap: 20px;
+}
+
+.navbar a{
+  text-decoration: none;
+  color: inherit;
+}
+
