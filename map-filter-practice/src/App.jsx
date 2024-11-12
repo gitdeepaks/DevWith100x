@@ -99,27 +99,40 @@ const NullishCoalsing = () => {
 
 const PhotoGallary = () => {
   const [photos, setPhotos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   React.useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/photos").then(async (res) => {
-      try {
-        const data = await res.json();
-        return setPhotos(data);
-      } catch (err) {
-        return console.error(err);
-      }
-    });
+    fetch("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => response.json())
+      .then((data) => {
+        setPhotos(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError("Error fetching data");
+        setIsLoading(false);
+        console.error("Error fetching data:", err);
+      });
   }, []);
-  return (
-    <div className="">
-      <h3>
-        Photos{" "}
-        {photos.slice(0, 5).map((photo) => {
-          return <image src={photo.thumbnailUrl} key={photo.id} />;
-        })}
-      </h3>
-    </div>
-  );
+
+  if (error) {
+    return <div className="">{error}</div>;
+  }
+
+  if (isLoading) {
+    <div className="">isLoading</div>;
+  } else
+    return (
+      <div className="">
+        <h3>
+          Photos{" "}
+          {photos.slice(0, 5).map((photo) => {
+            return <image src={photo.thumbnailUrl} key={photo.id} />;
+          })}
+        </h3>
+      </div>
+    );
 };
 
 class ClassComponenet extends React.Component {
