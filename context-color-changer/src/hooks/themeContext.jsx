@@ -1,11 +1,13 @@
+import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { createContext } from "react";
 
-const Themecontext = createContext("dark");
+const ThemeContext = createContext();
 
-// export const useTheme = () => {
-//   return useContext(Themecontext);
-// };
+// eslint-disable-next-line react-refresh/only-export-components
+export const useTheme = () => {
+  return useContext(ThemeContext);
+};
 
 // eslint-disable-next-line react/prop-types
 export const ThemeProvider = ({ children }) => {
@@ -21,13 +23,13 @@ export const ThemeProvider = ({ children }) => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [isLightMode, theme]);
   return (
-    <Themecontext.Provider
+    <ThemeContext.Provider
       value={{
         theme,
         toggleTheme,
       }}
     >
       {children}
-    </Themecontext.Provider>
+    </ThemeContext.Provider>
   );
 };
