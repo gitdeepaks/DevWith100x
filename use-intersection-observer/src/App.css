@@ -12,6 +12,7 @@ body {
   text-align: center;
   flex-direction: column;
   justify-content: center;
+  color: #020917;
 }
 
 .content h1 {
