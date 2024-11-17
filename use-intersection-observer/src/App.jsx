@@ -13,6 +13,7 @@ const App = () => {
     }),
     []
   );
+
   const intersectionEntry = useIntersectionObserver(ref, options);
   console.log("isIntersecting", intersectionEntry?.isIntersecting);
   console.log("Intersection Ratio", intersectionEntry?.intersectionRatio);
