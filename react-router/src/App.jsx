@@ -1,9 +1,11 @@
 import "./App.css";
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AppLayout from "./layouts/app-layout";
+import AppLayout from "./layouts/AppLayout";
+
 import Home from "./pages/Home";
-import Post from "./pages/Post";
-import PostComments, { postLoader } from "./pages/PostComments";
+import PostList, { postLoader } from "./pages/PostList";
+import PageComments from "./pages/PostComments";
 
 const router = createBrowserRouter([
   {
@@ -13,8 +15,15 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-      { path: "/posts", element: <Post />, loader: postLoader },
-      { path: "/posts/:postId", element: <PostComments /> },
+      {
+        path: "/posts",
+        element: <PostList />,
+        loader: postLoader,
+      },
+      {
+        path: "/posts/:postId",
+        element: <PageComments />,
+      },
     ],
   },
 ]);

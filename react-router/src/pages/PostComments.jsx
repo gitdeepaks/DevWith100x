@@ -1,53 +1,65 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
-import PostCard from "../components/PostCard";
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const PostComments = () => {
-  const { data: posts } = useLoaderData();
-  // https://jsonplaceholder.typicode.com/posts?_limit=50
+const PageComments = () => {
+  const [comments, setComments] = useState([]);
+  const [post, setposts] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  //   const [posts, setposts] = useState([]);
-  //   const [loading, setloading] = useState(false);
+  const { postId } = useParams();
 
-  //   const fetchPosts = async () => {
-  //     setloading(true);
+  const navigate = useNavigate();
 
-  //     try {
-  //       const response = await axios.get(
-  //         "https://jsonplaceholder.typicode.com/posts?_limit=50"
-  //       );
+  async function fetchData() {
+    setLoading(true);
 
-  //       //   console.log(response.data);
-  //       setposts(response.data);
-  //     } catch (error) {
-  //       console.log("error in fetching", error);
-  //     }
-  //     setloading(false);
-  //   };
+    try {
+      const [postResponse, commentResponse] = await Promise.all([
+        axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}`),
+        axios.get(
+          `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
+        ),
+      ]);
+      setposts(postResponse.data);
+      setComments(commentResponse.data);
+    } catch (error) {
+      console.log("Error in fetching data", error);
+    }
+    setLoading(false);
+  }
 
-  //   useEffect(() => {
-  //     fetchPosts();
-  //   }, []);
+  useEffect(() => {
+    fetchData();
+  }, [postId]);
 
   return (
     <div>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <PostCard post={post} />
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          {post && (
+            <div className="post-card">
+              <h2>{post.title}</h2>
+              <p>{post.body}</p>
+            </div>
+          )}
+
+          <h2>Comments</h2>
+          {comments.map((comment) => (
+            <li key={comment.id}>
+              <strong>{comment.name}</strong> : {comment.body}
+            </li>
+          ))}
         </div>
-      ))}
+      )}
+
+      <button onClick={() => navigate(-1)} className="button">
+        Go Back
+      </button>
     </div>
   );
 };
 
-export async function postLoader() {
-  const response = await axios.get(
-    "https://jsonplaceholder.typicode.com/posts?_limit=50"
-  );
-
-  return response;
-}
-
-export default PostComments;
+export default PageComments;
